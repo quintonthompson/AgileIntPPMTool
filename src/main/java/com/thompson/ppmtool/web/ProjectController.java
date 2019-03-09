@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
 @RestController is a specialized version of the controller. It includes the @Controller and @ResponseBody
@@ -42,7 +43,13 @@ public class ProjectController {
 
 
         if(result.hasErrors()) {
-            return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
+            Map<String, String> errorMap = new HashMap<>();
+
+            //Map error field with error message
+            for(FieldError error : result.getFieldErrors()){
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<Map<String,String>>(errorMap, HttpStatus.BAD_REQUEST);
         }
 
         //wire up and save to database
