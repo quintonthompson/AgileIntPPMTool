@@ -6,20 +6,18 @@ I want this class to act more as a router than a place for logic.
  */
 
 import com.thompson.ppmtool.domain.Project;
+import com.thompson.ppmtool.services.MapValidationErrorService;
 import com.thompson.ppmtool.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
 @RestController is a specialized version of the controller. It includes the @Controller and @ResponseBody
@@ -35,22 +33,19 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private MapValidationErrorService mapValidationErrorService;
+
     //@Valid gives a clean structure of the invalid error
     //Binding results looks at the object and determines if there are any errors
     //Use generic type "?" instead of "Project" because I can return more than just a project like a String for example
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result){
 
+        //Return list of errors
+       ResponseEntity<?> errorMap =  mapValidationErrorService.MapValidationErrorService(result);
 
-        if(result.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
-
-            //Map error field with error message
-            for(FieldError error : result.getFieldErrors()){
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<Map<String,String>>(errorMap, HttpStatus.BAD_REQUEST);
-        }
+       if(errorMap != null) return errorMap;
 
         //wire up and save to database
         Project project1 = projectService.saveOrUpdateProject(project);
