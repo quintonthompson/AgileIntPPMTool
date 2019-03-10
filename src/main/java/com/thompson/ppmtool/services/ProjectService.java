@@ -39,4 +39,12 @@ public class ProjectService {
         }
         return project;
     }
+
+    //out of the box returns adjacent object that has all the Jason
+    //elements or all the objects within that list that we want to display in this case we want to see a list
+    //all our projects so that when we load up the dashboard in our UI we can see all the projects
+    //associated with our account.
+    public Iterable<Project> findAllProjects(){
+        return projectRepository.findAll();
+    }
 }
