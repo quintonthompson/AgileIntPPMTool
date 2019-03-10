@@ -18,7 +18,7 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-
+    //Saves and/or updates project in database
     public Project saveOrUpdateProject(Project project){
 
         try{
@@ -27,5 +27,16 @@ public class ProjectService {
         }catch(Exception e){
             throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' already exists.");
         }
+    }
+
+    //finds the project by identifier
+    public Project findProjectByIdentifier(String projectId){
+
+        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
+
+        if(project == null){
+            throw new ProjectIdException("Project ID '" + projectId.toUpperCase() + "' doest not exist.");
+        }
+        return project;
     }
 }

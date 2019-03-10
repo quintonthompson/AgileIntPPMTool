@@ -16,6 +16,5 @@ CrudRepository mainly provides CRUD functions. CrudRepository<type,ID>
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 
     //CrudRepository comes with multiple functions like this one.
-    @Override
-    Iterable<Project> findAllById(Iterable<Long> iterable);
+Project findByProjectIdentifier(String projectId);
 }
