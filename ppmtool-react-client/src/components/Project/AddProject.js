@@ -20,15 +20,15 @@ class AddProject extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
-  }
-
   //life cycle hooks
   componentWillReceiveProps(nextProps) {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+  }
+
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   onSubmit(event) {

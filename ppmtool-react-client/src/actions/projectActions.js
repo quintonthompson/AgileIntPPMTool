@@ -1,7 +1,5 @@
 import axios from "axios";
 import { GET_ERRORS, GET_PROJECTS } from "./types";
-import { connect } from "react-redux";
-import AddProject from "../components/Project/AddProject";
 
 //async returns a promise which javascript will wait until its finished and return result
 export const createProject = (project, history) => async dispatch => {

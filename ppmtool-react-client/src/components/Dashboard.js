@@ -11,6 +11,8 @@ class Dashboard extends Component {
   }
 
   render() {
+    // same as "const projects = this.props.project.projects"
+    const { projects } = this.props.project;
     return (
       <div className="projects">
         <div className="container">
@@ -21,7 +23,11 @@ class Dashboard extends Component {
               <CreateProjectButton />
               <br />
               <hr />
-              <ProjectItem />
+
+              {//javascript function to map project in projects to project item (traversing list of projects)
+              projects.map(project => (
+                <ProjectItem key={project.id} project={project} />
+              ))}
             </div>
           </div>
         </div>
