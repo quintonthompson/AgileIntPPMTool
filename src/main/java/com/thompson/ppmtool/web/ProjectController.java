@@ -25,6 +25,7 @@ annotations and as a result, simplifies the controller implementation.
 
 @RestController
 @RequestMapping("/api/project")
+@CrossOrigin
 public class ProjectController {
 
     @Autowired
