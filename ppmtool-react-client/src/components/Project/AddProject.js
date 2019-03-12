@@ -11,7 +11,8 @@ class AddProject extends Component {
       projectIdentifier: "",
       description: "",
       start_date: "",
-      end_date: ""
+      end_date: "",
+      errors: {}
     };
 
     this.onChange = this.onChange.bind(this);
@@ -20,6 +21,13 @@ class AddProject extends Component {
 
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  //life cycle hooks
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
+    }
   }
 
   onSubmit(event) {
@@ -37,6 +45,8 @@ class AddProject extends Component {
   }
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="project">
         <div className="container">
@@ -46,6 +56,9 @@ class AddProject extends Component {
               <hr />
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
+                  {
+                    // project name
+                  }
                   <input
                     type="text"
                     className="form-control form-control-lg "
@@ -54,7 +67,11 @@ class AddProject extends Component {
                     value={this.state.projectName}
                     onChange={this.onChange}
                   />
+                  <p>{errors.projectName}</p>
                 </div>
+                {
+                  // project Identifier
+                }
                 <div className="form-group">
                   <input
                     type="text"
@@ -64,7 +81,11 @@ class AddProject extends Component {
                     value={this.state.projectIdentifier}
                     onChange={this.onChange}
                   />
+                  <p>{errors.projectIdentifier}</p>
                 </div>
+                {
+                  // project description
+                }
                 <div className="form-group">
                   <textarea
                     className="form-control form-control-lg"
@@ -73,7 +94,11 @@ class AddProject extends Component {
                     value={this.state.description}
                     onChange={this.onChange}
                   />
+                  <p>{errors.description}</p>
                 </div>
+                {
+                  // project Start date
+                }
                 <h6>Start Date</h6>
                 <div className="form-group">
                   <input
@@ -84,6 +109,9 @@ class AddProject extends Component {
                     onChange={this.onChange}
                   />
                 </div>
+                {
+                  // project end date
+                }
                 <h6>Estimated End Date</h6>
                 <div className="form-group">
                   <input
@@ -109,10 +137,18 @@ class AddProject extends Component {
 }
 
 AddProject.propTypes = {
-  createProject: PropTypes.func.isRequired
+  //this prop type must be a function
+  createProject: PropTypes.func.isRequired,
+  //this prop type must be object
+  errors: PropTypes.object.isRequired
 };
 
+const mapStateToProps = state => ({
+  // map state errors to errors prop
+  errors: state.errors
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { createProject }
 )(AddProject);
